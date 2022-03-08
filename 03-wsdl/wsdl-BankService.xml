@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:tns="http://soap02/" targetNamespace="http://soap02/"
+    xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <documentation></documentation>
+    <types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://soap02/" schemaLocation="http://127.0.0.1:8000/BankService?xsd=1"/>
+        </xsd:schema>
+    </types>
+    <!-- WHy is this not working? 
+        <types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://soap02/" elementFormDefault="qualified">
+            <xs:element name="ValidatePayment">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="AccountNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                        <xs:element name="Date" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                        <xs:element name="ValidationCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                        <xs:element name="Amount" type="xs:int" minOccurs="1" maxOccurs="1"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ValidatePaymentResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="ValidateSuccess" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="GetBalance">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="AccountNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                        <xs:element name="Date" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                        <xs:element name="ValidationCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="GetBalanceResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="BalanceResult" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </types> -->
+    <!-- messages (0,*) -->
+    <message name="ValidatePaymentIn">
+        <part name="ValidatePaymentRequestPart" element="tns:ValidatePayment"/>
+    </message>
+    <message name="ValidatePaymentOut">
+        <part name="ValidatePaymentRequestPart" element="tns:ValidatePaymentResponse"/>
+    </message>
+    <message name="GetBalanceIn">
+        <part name="GetBalanceRequestPart" element="tns:GetBalance"/>
+    </message>
+    <message name="GetBalanceOut">
+        <part name="GetBalanceRequestPart" element="tns:GetBalanceResponse"/>
+    </message>
+    <portType name="BankServicePortType">
+        <operation name="ValidatePaymentOperation">
+            <input message="tns:ValidatePaymentIn"/>
+            <output message="tns:ValidatePaymentOut"/>
+        </operation>
+        <operation name="GetBalanceOperation">
+            <input message="tns:GetBalanceIn"/>
+            <output message="tns:GetBalanceOut"/>
+        </operation>
+    </portType>
+    <!-- bindings (0,*) -->
+    <binding name="BankServiceBinding" type="tns:BankServicePortType">
+        <wsdlsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <operation name="ValidatePaymentOperation">
+            <wsdlsoap:operation soapAction="http://soap02/ValidatePayment"/>
+            <input>
+                <wsdlsoap:body use="literal"/>
+            </input>
+            <output>
+                <wsdlsoap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="GetBalanceOperation">
+            <wsdlsoap:operation soapAction="http://soap02/GetBalance"/>
+            <input>
+                <wsdlsoap:body use="literal"/>
+            </input>
+            <output>
+                <wsdlsoap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="BankServiceService">
+        <port name="BankServicePort" binding="tns:BankServiceBinding">
+            <wsdlsoap:address location="http://127.0.0.1:8000/BankService"/>
+        </port>
+    </service>
+</definitions>

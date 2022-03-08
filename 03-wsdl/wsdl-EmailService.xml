@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:tns="http://soap02/" targetNamespace="http://soap02/"
+    xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <documentation></documentation>
+    <types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://soap02/" schemaLocation="http://127.0.0.1:8000/EmailService?xsd=1"/>
+        </xsd:schema>
+    </types>
+    <!-- Why is this not working?
+    <types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://soap02/" elementFormDefault="qualified">
+            <xs:element name="SendNewsLetter">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="sender" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                        <xs:element name="subject" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                        <xs:element name="bookingDetails" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="SendNewsLetterResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="SendNewsLetterResult" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="SendEmail">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="recipient" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                        <xs:element name="sender" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                        <xs:element name="subject" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                        <xs:element name="bookingDetails" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="SendEmailResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="SendEmailResult" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="RegisterToNewsLetter">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="recipient" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="RegisterToNewsLetterResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="RegisterToNewsLetterResult" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </types> -->
+    <!-- messages (0,*) -->
+    <message name="SendNewsLetterIn">
+        <part name="RequestPart" element="tns:SendNewsLetter"/>
+    </message>
+    <message name="SendNewsLetterOut">
+        <part name="RequestPart" element="tns:SendNewsLetterResponse"/>
+    </message>
+    <message name="SendEmailIn">
+        <part name="RequestPart" element="tns:SendEmail"/>
+    </message>
+    <message name="SendEmailOut">
+        <part name="RequestPart" element="tns:SendEmailResponse"/>
+    </message>
+    <message name="RegisterToNewsLetterIn">
+        <part name="RequestPart" element="tns:RegisterToNewsLetter"/>
+    </message>
+    <message name="RegisterToNewsLetterOut">
+        <part name="RequestPart" element="tns:RegisterToNewsLetterResponse"/>
+    </message>
+    <portType name="EmailServicePortType">
+        <operation name="SendNewsLetterOperation">
+            <input message="tns:SendNewsLetterIn"/>
+            <output message="tns:SendNewsLetterOut"/>
+        </operation>
+        <operation name="SendEmailOperation">
+            <input message="tns:SendEmailIn"/>
+            <output message="tns:SendEmailOut"/>
+        </operation>
+        <operation name="RegisterToNewsLetterOperation">
+            <input message="tns:RegisterToNewsLetterIn"/>
+            <output message="tns:RegisterToNewsLetterOut"/>
+        </operation>
+    </portType>
+    <!-- bindings (0,*) -->
+    <binding name="EmailServiceBinding" type="tns:EmailServicePortType">
+        <wsdlsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <operation name="SendNewsLetterOperation">
+            <wsdlsoap:operation soapAction="http://soap02/SendNewsLetter"/>
+            <input>
+                <wsdlsoap:body use="literal"/>
+            </input>
+            <output>
+                <wsdlsoap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="SendEmailOperation">
+            <wsdlsoap:operation soapAction="http://soap02/SendEmail"/>
+            <input>
+                <wsdlsoap:body use="literal"/>
+            </input>
+            <output>
+                <wsdlsoap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="RegisterToNewsLetterOperation">
+            <wsdlsoap:operation soapAction="http://soap02/RegisterToNewsLetter"/>
+            <input>
+                <wsdlsoap:body use="literal"/>
+            </input>
+            <output>
+                <wsdlsoap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="EmailServiceService">
+        <port name="EmailServicePort" binding="tns:EmailServiceBinding">
+            <wsdlsoap:address location="http://127.0.0.1:8000/EmailService/"/>
+        </port>
+    </service>
+</definitions>
