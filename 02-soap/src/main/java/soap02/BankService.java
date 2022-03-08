@@ -26,6 +26,7 @@ public class BankService implements IBankService {
 		
 		String combined = number + date + validationCode;
 		
+		System.out.println(combined);
 		// check if card is registered
     	if(cardDetails.containsKey(combined))
     	{
@@ -39,6 +40,19 @@ public class BankService implements IBankService {
     		}
     	}
     	return false;
+    }
+	public int GetBalance(String number, String date, String validationCode)
+    {
+		String combined = number + date + validationCode;
+		
+		System.out.println(combined);
+
+		// check if card is registered
+    	if(cardDetails.containsKey(combined))
+    	{
+    		return cardDetails.get(combined);
+    	}
+    	return -1;
     }
 }
 

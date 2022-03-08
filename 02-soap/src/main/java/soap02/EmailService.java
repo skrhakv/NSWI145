@@ -7,6 +7,8 @@ import javax.jws.WebService;
 
 @WebService(endpointInterface = "soap02.IEmailService")
 public class EmailService implements IEmailService {
+	private List<String> registrations = new ArrayList<String>();
+	
     public boolean SendEmail(String recipient, String sender, String subject, String bookingDetails)
     {	
     	// The method correctly sends email from sender to the recipient
@@ -39,5 +41,24 @@ public class EmailService implements IEmailService {
 	       return false;
   	     }
    }
+    
+    public boolean RegisterToNewsLetter(String recipient)
+    {
+    	registrations.add(recipient);
+    	return true;
+    }
+    
+    public int SendNewsLetter(String sender, String subject, String bookingDetails)
+    {
+    	int counter = 0;
+    	
+    	for (int i = 0; i < registrations.size(); i++)
+    	{
+    		SendEmail(registrations.get(i), sender, subject, bookingDetails);
+    		counter++;
+    	}
+    	
+    	return counter;
+	}
 }
 
