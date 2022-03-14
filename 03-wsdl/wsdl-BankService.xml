@@ -4,48 +4,40 @@
     xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/">
     <documentation></documentation>
     <types>
-        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-            <xsd:import namespace="http://soap02/" schemaLocation="http://127.0.0.1:8000/BankService?xsd=1"/>
-        </xsd:schema>
-    </types>
-    <!-- WHy is this not working? 
-        <types>
-        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://soap02/" elementFormDefault="qualified">
-            <xs:element name="ValidatePayment">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="AccountNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
-                        <xs:element name="Date" type="xs:string" minOccurs="1" maxOccurs="1"/>
-                        <xs:element name="ValidationCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
-                        <xs:element name="Amount" type="xs:int" minOccurs="1" maxOccurs="1"/>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="ValidatePaymentResponse">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="ValidateSuccess" type="xs:boolean"/>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="GetBalance">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="AccountNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
-                        <xs:element name="Date" type="xs:string" minOccurs="1" maxOccurs="1"/>
-                        <xs:element name="ValidationCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="GetBalanceResponse">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="BalanceResult" type="xs:int"/>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
+        <xs:schema version="1.0" targetNamespace="http://soap02/"
+            xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://soap02/">>
+            <xs:element name="GetBalance" type="tns:GetBalance"/>
+            <xs:element name="GetBalanceResponse" type="tns:GetBalanceResponse"/>
+            <xs:element name="ValidatePayment" type="tns:ValidatePayment"/>
+            <xs:element name="ValidatePaymentResponse" type="tns:ValidatePaymentResponse"/>
+            <xs:complexType name="ValidatePayment">
+                <xs:sequence>
+                    <xs:element name="arg0" type="xs:string" minOccurs="0"/>
+                    <xs:element name="arg1" type="xs:string" minOccurs="0"/>
+                    <xs:element name="arg2" type="xs:string" minOccurs="0"/>
+                    <xs:element name="arg3" type="xs:int" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="ValidatePaymentResponse">
+                <xs:sequence>
+                    <xs:element name="return" type="xs:boolean"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="GetBalance">
+                <xs:sequence>
+                    <xs:element name="arg0" type="xs:string" minOccurs="0"/>
+                    <xs:element name="arg1" type="xs:string" minOccurs="0"/>
+                    <xs:element name="arg2" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="GetBalanceResponse">
+                <xs:sequence>
+                    <xs:element name="return" type="xs:int"/>
+                </xs:sequence>
+            </xs:complexType>
         </xs:schema>
-    </types> -->
+    </types>
     <!-- messages (0,*) -->
     <message name="ValidatePaymentIn">
         <part name="ValidatePaymentRequestPart" element="tns:ValidatePayment"/>
