@@ -42,15 +42,15 @@ public class BankClient {
 			if (responseBody.hasFault()) {
 			    System.out.println(responseBody.getFault().getFaultString()); 
 			} else {
-			QName totalAmountResponseName = new QName("http://soap02/", "GetBalanceResponse", "ns2");
-			QName totalAmountResultName = new QName("return");
-			SOAPBodyElement AddResponse = (SOAPBodyElement)
-			       responseBody.getChildElements(totalAmountResponseName).next();
+			QName GetBalanceResponseName = new QName("http://soap02/", "GetBalanceResponse", "ns2");
+			QName returnName = new QName("return");
+			SOAPBodyElement GetBalanceResponse = (SOAPBodyElement)
+			       responseBody.getChildElements(GetBalanceResponseName).next();
 
-			SOAPBodyElement AddResult = (SOAPBodyElement)
-			       AddResponse.getChildElements(totalAmountResultName).next();
+			SOAPBodyElement returnResult = (SOAPBodyElement)
+			GetBalanceResponse.getChildElements(returnName).next();
 
-			System.out.println(AddResult.getValue());
+			System.out.println(returnResult.getValue());
 			}
 
 		}
