@@ -1,0 +1,40 @@
+<xs:schema xmlns:tns="http://hw5/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://hw5/" version="1.0">
+
+  <xs:element name="GetBalance" type="tns:GetBalance"/>
+
+  <xs:element name="GetBalanceResponse" type="tns:GetBalanceResponse"/>
+
+  <xs:element name="ValidatePayment" type="tns:ValidatePayment"/>
+
+  <xs:element name="ValidatePaymentResponse" type="tns:ValidatePaymentResponse"/>
+
+  <xs:complexType name="GetBalance">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg2" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GetBalanceResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ValidatePayment">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg2" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg3" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ValidatePaymentResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
