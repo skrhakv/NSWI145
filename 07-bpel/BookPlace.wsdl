@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:tns="http://nswi145/hw7/wsdl"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:calc="http://soap02/" targetNamespace="http://nswi145/hw7/wsdl">
+    <wsdl:import location="BankService.wsdl" namespace="http://soap02/" />
+    <wsdl:import location="EmailService.wsdl" namespace="http://soap02/" />
+
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://nswi145/hw7/wsdl">
+            <xsd:element name="calcIn">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="AccountNumber" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="ValidationDate" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="ValidationCode" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="Amount" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="Email" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="NewsletterSubscribe" type="xsd:boolean" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="calcOut">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="return" type="xsd:integer"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </wsdl:types>
+
+    <wsdl:message name="CalcInputMessage">
+        <wsdl:part name="parameters" element="tns:calcIn"/>
+    </wsdl:message>
+    <wsdl:message name="CalcOutputMessage">
+        <wsdl:part name="parameters" element="tns:calcOut"/>
+    </wsdl:message>
+
+    <wsdl:portType name="BookPlacePortType">        <!--Musim pridat potom do BPEL!!! look for CalcPortType-->
+        <wsdl:operation name="BookPlaceOperation">            <!--Musim pridat potom do BPEL!!! look for calculateSomething-->
+            <wsdl:input name="CalcIn" message="tns:CalcInputMessage"/>
+            <wsdl:output name="CalcOut" message="tns:CalcOutputMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:portType name="GetBalanceResponsePortType">
+        <wsdl:operation name="GetBalance">
+            <wsdl:input name="GetBal" message="calc:GetBalanceResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:portType name="PaymentResponsePortType">
+        <wsdl:operation name="ValidatePayment">
+            <wsdl:input name="ValPay" message="calc:ValidatePaymentResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:portType name="SendEmailResponsePortType">
+        <wsdl:operation name="SendEmail">
+            <wsdl:input name="SndEml" message="calc:SendEmailResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:portType name="SubscribeNewsletterResponsePortType">
+        <wsdl:operation name="RegisterToNewsLetter">
+            <wsdl:input name="subNews" message="calc:RegisterToNewsLetterResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="SubscribeNewsletterSOAPBinding" type="tns:SubscribeNewsletterResponsePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="RegisterToNewsLetter">
+            <soap:operation soapAction="urn:RegisterToNewsLetter" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="SendEmailSOAPBinding" type="tns:SendEmailResponsePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="SendEmail">
+            <soap:operation soapAction="urn:SendEmail" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:binding name="PaymentSOAPBinding" type="tns:PaymentResponsePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="ValidatePayment">
+            <soap:operation soapAction="urn:ValidatePayment" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:binding name="BookPlaceSOAPBinding" type="tns:BookPlacePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="BookPlaceOperation">
+            <soap:operation soapAction="urn:BookPlaceOperation" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:binding name="GetBalanceSOAPBinding" type="tns:GetBalanceResponsePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="GetBalance">
+            <soap:operation soapAction="urn:GetBalanceOperation" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="BookingService">        <!-- change in deploy.xml! puvodne CustomCalcService2-->
+        <wsdl:port name="BookPort" binding="tns:BookPlaceSOAPBinding">            <!-- change in deploy.xml! puvodne CalcPort-->
+            <soap:address location="http://localhost:8080/ode/processes/BookingService"/>
+        </wsdl:port>
+        <wsdl:port name="BalancePort" binding="tns:GetBalanceSOAPBinding">            <!-- change in deploy.xml! puvodne MultPort-->
+            <soap:address location="http://localhost:8080/ode/processes/BalancePort"/>
+        </wsdl:port>
+        <wsdl:port name="PaymentPort" binding="tns:PaymentSOAPBinding">            <!-- change in deploy.xml! puvodne MultPort-->
+            <soap:address location="http://localhost:8080/ode/processes/PaymentPort"/>
+        </wsdl:port>
+        <wsdl:port name="SendEmailPort" binding="tns:SendEmailSOAPBinding">            <!-- change in deploy.xml! puvodne MultPort-->
+            <soap:address location="http://localhost:8080/ode/processes/SendEmailPort"/>
+        </wsdl:port>
+        <wsdl:port name="SubscribeNewsLetterPort" binding="tns:SubscribeNewsletterSOAPBinding">            <!-- change in deploy.xml! puvodne MultPort-->
+            <soap:address location="http://localhost:8080/ode/processes/SubscribeNewsLetterPort"/>
+        </wsdl:port>
+    </wsdl:service>
+
+    <plnk:partnerLinkType name="BookLinkType">        <!-- change in bpel! puvodne CalcLinkType-->
+        <plnk:role name="BookingExecutorRole" portType="tns:BookPlacePortType"/>
+    </plnk:partnerLinkType>
+
+    <plnk:partnerLinkType name="BalanceLinkType">        <!-- change in bpel! puvodne MultiplyLinkType-->
+        <plnk:role name="BalanceRole" portType="calc:IBankService" />
+        <plnk:role name="BalanceClientRole" portType="tns:GetBalanceResponsePortType" />
+    </plnk:partnerLinkType>
+
+    <plnk:partnerLinkType name="PaymentLinkType">        <!-- change in bpel! puvodne MultiplyLinkType-->
+        <plnk:role name="PaymentRole" portType="calc:IBankService" />
+        <plnk:role name="PaymentClientRole" portType="tns:PaymentResponsePortType" />
+    </plnk:partnerLinkType>
+
+    <plnk:partnerLinkType name="SendEmailLinkType">        <!-- change in bpel! puvodne MultiplyLinkType-->
+        <plnk:role name="SendEmailRole" portType="calc:IEmailService" />
+        <plnk:role name="SendEmailClientRole" portType="tns:SendEmailResponsePortType" />
+    </plnk:partnerLinkType>
+
+    <plnk:partnerLinkType name="SubscribeNewsletterLinkType">        <!-- change in bpel! puvodne MultiplyLinkType-->
+        <plnk:role name="SubscribeNewsletterRole" portType="calc:IEmailService" />
+        <plnk:role name="SubscribeNewsletterClientRole" portType="tns:SubscribeNewsletterResponsePortType" />
+    </plnk:partnerLinkType>
+</wsdl:definitions>

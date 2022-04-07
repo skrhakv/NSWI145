@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is JAX-WS RI 2.3.2 git-revision#3d0bba4. -->
+<xs:schema xmlns:tns="http://soap02/"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://soap02/">
+
+    <xs:element name="RegisterToNewsLetter" type="tns:RegisterToNewsLetter"/>
+
+    <xs:element name="RegisterToNewsLetterResponse" type="tns:RegisterToNewsLetterResponse"/>
+
+    <xs:element name="SendEmail" type="tns:SendEmail"/>
+
+    <xs:element name="SendEmailResponse" type="tns:SendEmailResponse"/>
+
+    <xs:element name="SendNewsLetter" type="tns:SendNewsLetter"/>
+
+    <xs:element name="SendNewsLetterResponse" type="tns:SendNewsLetterResponse"/>
+
+    <xs:complexType name="SendNewsLetter">
+        <xs:sequence>
+            <xs:element name="arg0" type="xs:string" minOccurs="0"/>
+            <xs:element name="arg1" type="xs:string" minOccurs="0"/>
+            <xs:element name="arg2" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="SendNewsLetterResponse">
+        <xs:sequence>
+            <xs:element name="return" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="RegisterToNewsLetter">
+        <xs:sequence>
+            <xs:element name="arg0" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="RegisterToNewsLetterResponse">
+        <xs:sequence>
+            <xs:element name="return" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="SendEmail">
+        <xs:sequence>
+            <xs:element name="arg0" type="xs:string" minOccurs="0"/>
+            <xs:element name="arg1" type="xs:string" minOccurs="0"/>
+            <xs:element name="arg2" type="xs:string" minOccurs="0"/>
+            <xs:element name="arg3" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="SendEmailResponse">
+        <xs:sequence>
+            <xs:element name="return" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--CustomCalculator->BookProcess in deploy!-->
+<process name="BookProcess" targetNamespace="http://nswi145/hw7/bpel"
+  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+  xmlns:tns="http://nswi145/hw7/bpel"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:tnswsdl="http://nswi145/hw7/wsdl"
+  xmlns:calc="http://soap02/" queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0">
+
+  <import location="BookPlace.wsdl" namespace="http://nswi145/hw7/wsdl" importType="http://schemas.xmlsoap.org/wsdl/" />
+
+  <partnerLinks>
+    <!--CalculatorPartnerLink->BookingPartnerLink-->
+    <partnerLink name="BookingPartnerLink" partnerLinkType="tnswsdl:BookLinkType" myRole="BookingExecutorRole" />
+    <!--MultiplyLink->BalancePartnerLink-->
+    <partnerLink name="BalancePartnerLink" partnerLinkType="tnswsdl:BalanceLinkType" myRole="BalanceClientRole" partnerRole="BalanceRole"/>
+    <partnerLink name="PaymentPartnerLink" partnerLinkType="tnswsdl:PaymentLinkType" myRole="PaymentClientRole" partnerRole="PaymentRole"/>
+    <partnerLink name="SendEmailPartnerLink" partnerLinkType="tnswsdl:SendEmailLinkType" myRole="SendEmailClientRole" partnerRole="SendEmailRole"/>
+    <partnerLink name="SubscribeNewsletterPartnerLink" partnerLinkType="tnswsdl:SubscribeNewsletterLinkType" myRole="SubscribeNewsletterClientRole" partnerRole="SubscribeNewsletterRole"/>
+
+  </partnerLinks>
+
+  <variables>
+    <variable name="inputMessage" messageType="tnswsdl:CalcInputMessage" />
+    <variable name="multiRequestElement" element="calc:GetBalance" />
+    <variable name="multiRequest" messageType="calc:GetBalance" />
+    <variable name="multiResponse" messageType="calc:GetBalanceResponse" />
+    <variable name="multiResponseElement" element="calc:GetBalanceResponse" />
+    <variable name="outputMessage" messageType="tnswsdl:CalcOutputMessage" />
+
+    <variable name="PaymentRequestElement" element="calc:ValidatePayment" />
+    <variable name="PaymentRequest" messageType="calc:ValidatePayment" />
+    <variable name="PaymentResponse" messageType="calc:ValidatePaymentResponse" />
+    <variable name="PaymentResponseElement" element="calc:ValidatePaymentResponse" />
+
+    <variable name="SendEmailRequestElement" element="calc:SendEmail" />
+    <variable name="SendEmailRequest" messageType="calc:SendEmail" />
+    <variable name="SendEmailResponse" messageType="calc:SendEmailResponse" />
+    <variable name="SendEmailResponseElement" element="calc:SendEmailResponse" />
+
+    <variable name="SubscribeNewsletterRequestElement" element="calc:RegisterToNewsLetter" />
+    <variable name="SubscribeNewsletterRequest" messageType="calc:RegisterToNewsLetter" />
+    <variable name="SubscribeNewsletterResponse" messageType="calc:RegisterToNewsLetterResponse" />
+    <variable name="SubscribeNewsletterResponseElement" element="calc:RegisterToNewsLetterResponse" />
+
+
+    <variable name="AccountNumber" type="xsd:string" />
+    <variable name="ValidationDate" type="xsd:string" />
+    <variable name="ValidationCode" type="xsd:string" />
+    <variable name="Amount" type="xsd:string" />
+    <variable name="Email" type="xsd:string" />
+    <variable name="NewsletterSubscribe" type="xsd:boolean" />
+    <variable name="return" type="xsd:integer" />
+  </variables>
+
+  <sequence>
+
+    <receive name="ReceiveBookingInputs" partnerLink="BookingPartnerLink" portType="tnswsdl:BookPlacePortType" operation="BookPlaceOperation" variable="inputMessage" createInstance="yes" />
+
+    <assign name="ParseInput">
+      <copy>
+        <from>$inputMessage//AccountNumber[1]</from>
+        <to variable="AccountNumber"/>
+      </copy>
+      <copy>
+        <from>$inputMessage//ValidationDate[1]</from>
+        <to variable="ValidationDate"/>
+      </copy>
+      <copy>
+        <from>$inputMessage//ValidationCode[1]</from>
+        <to variable="ValidationCode"/>
+      </copy>
+      <copy>
+        <from>$inputMessage//Amount[1]</from>
+        <to variable="Amount"/>
+      </copy>
+      <copy>
+        <from>$inputMessage//Email[1]</from>
+        <to variable="Email"/>
+      </copy>
+      <copy>
+        <from>$inputMessage//NewsletterSubscribe[1]</from>
+        <to variable="NewsletterSubscribe"/>
+      </copy>
+    </assign>
+
+    <assign name="InitBookingRequest">
+      <copy>
+        <from>
+          <literal>
+            <calc:GetBalance>
+              <arg0 xmlns=""></arg0>
+              <arg1 xmlns=""></arg1>
+              <arg2 xmlns=""></arg2>
+            </calc:GetBalance>
+          </literal>
+        </from>
+        <to variable="multiRequestElement" />
+      </copy>
+      <copy>
+        <from>$AccountNumber</from>
+        <to>$multiRequestElement/arg0</to>
+      </copy>
+      <copy>
+        <from>$ValidationDate</from>
+        <to>$multiRequestElement/arg1</to>
+      </copy>
+      <copy>
+        <from>$ValidationCode</from>
+        <to>$multiRequestElement/arg2</to>
+      </copy>
+      <copy>
+        <from variable="multiRequestElement"/>
+        <to variable="multiRequest" part="parameters"/>
+      </copy>
+    </assign>
+
+    <invoke name="InvokeMultiplication" partnerLink="BalancePartnerLink" operation="GetBalance" inputVariable="multiRequest" outputVariable="multiResponse" />
+
+    <assign name="ParseMultiResponse">
+      <copy>
+        <from variable="multiResponse" part="parameters"/>
+        <to variable="multiResponseElement"/>
+      </copy>
+      <copy>
+        <from>$multiResponseElement/return</from>
+        <to variable="outputMessage" part="parameters"/>
+      </copy>
+    </assign>
+    <if>
+      <condition>$multiResponseElement/return &gt; $Amount </condition>
+      <flow>
+        <assign name="InitPaymentRequest">
+          <copy>
+            <from>
+              <literal>
+                <calc:ValidatePayment>
+                  <arg0 xmlns=""></arg0>
+                  <arg1 xmlns=""></arg1>
+                  <arg2 xmlns=""></arg2>
+                  <arg3 xmlns=""></arg3>
+                </calc:ValidatePayment>
+              </literal>
+            </from>
+            <to variable="PaymentRequestElement" />
+          </copy>
+          <copy>
+            <from>$AccountNumber</from>
+            <to>$PaymentRequestElement/arg0</to>
+          </copy>
+          <copy>
+            <from>$ValidationDate</from>
+            <to>$PaymentRequestElement/arg1</to>
+          </copy>
+          <copy>
+            <from>$ValidationCode</from>
+            <to>$PaymentRequestElement/arg2</to>
+          </copy>
+          <copy>
+            <from>$Amount</from>
+            <to>$PaymentRequestElement/arg3</to>
+          </copy>
+          <copy>
+            <from variable="PaymentRequestElement"/>
+            <to variable="PaymentRequest" part="parameters"/>
+          </copy>
+        </assign>
+
+        <invoke name="InvokePayment" partnerLink="PaymentPartnerLink" operation="ValidatePayment" inputVariable="PaymentRequest" outputVariable="PaymentResponse" />
+
+        <assign name="InitSendSuccessEmailRequest">
+          <copy>
+            <from>
+              <literal>
+                <calc:SendEmail>
+                  <arg0 xmlns=""></arg0>
+                  <arg1 xmlns=""></arg1>
+                  <arg2 xmlns=""></arg2>
+                  <arg3 xmlns=""></arg3>
+                </calc:SendEmail>
+              </literal>
+            </from>
+            <to variable="SendEmailRequestElement" />
+          </copy>
+          <copy>
+            <from>$Email</from>
+            <to>$SendEmailRequestElement/arg0</to>
+          </copy>
+          <copy>
+            <from>'info@booking.com'</from>
+            <to>$SendEmailRequestElement/arg1</to>
+          </copy>
+          <copy>
+            <from>'Booking Successful'</from>
+            <to>$SendEmailRequestElement/arg2</to>
+          </copy>
+          <copy>
+            <from>'Your booking was successful! Enjoy your stay.'</from>
+            <to>$SendEmailRequestElement/arg3</to>
+          </copy>
+          <copy>
+            <from variable="SendEmailRequestElement"/>
+            <to variable="SendEmailRequest" part="parameters"/>
+          </copy>
+        </assign>
+
+        <invoke name="SendSuccessEmail" partnerLink="SendEmailPartnerLink" operation="SendEmail" inputVariable="SendEmailRequest" outputVariable="SendEmailResponse" />
+
+      </flow>
+    </if>
+    <else>
+      <assign name="InitSendFailedEmailRequest">
+        <copy>
+          <from>
+            <literal>
+              <calc:SendEmail>
+                <arg0 xmlns=""></arg0>
+                <arg1 xmlns=""></arg1>
+                <arg2 xmlns=""></arg2>
+                <arg3 xmlns=""></arg3>
+              </calc:SendEmail>
+            </literal>
+          </from>
+          <to variable="SendEmailRequestElement" />
+        </copy>
+        <copy>
+          <from>$Email</from>
+          <to>$SendEmailRequestElement/arg0</to>
+        </copy>
+        <copy>
+          <from>'info@booking.com'</from>
+          <to>$SendEmailRequestElement/arg1</to>
+        </copy>
+        <copy>
+          <from>'Booking Failed'</from>
+          <to>$SendEmailRequestElement/arg2</to>
+        </copy>
+        <copy>
+          <from>'Your booking wasn't successful due to low balance on your bank account! Please chekc your balance and try again.'</from>
+          <to>$SendEmailRequestElement/arg3</to>
+        </copy>
+        <copy>
+          <from variable="SendEmailRequestElement"/>
+          <to variable="SendEmailRequest" part="parameters"/>
+        </copy>
+      </assign>
+
+      <invoke name="SendFailedEmail" partnerLink="SendEmailPartnerLink" operation="SendEmail" inputVariable="SendEmailRequest" outputVariable="SendEmailResponse" />
+
+    </else>
+    <if>
+      <condition>$NewsletterSubscribe </condition>
+      <flow>
+        <assign name="SubscribeNewsletterRequest">
+          <copy>
+            <from>
+              <literal>
+                <calc:RegisterToNewsLetter>
+                  <arg0 xmlns=""></arg0>
+                </calc:RegisterToNewsLetter>
+              </literal>
+            </from>
+            <to variable="SubscribeNewsletterRequestElement" />
+          </copy>
+          <copy>
+            <from>$Email</from>
+            <to>$SubscribeNewsletterRequestElement/arg0</to>
+          </copy>
+          <copy>
+            <from variable="SubscribeNewsletterRequestElement"/>
+            <to variable="SubscribeNewsletterRequest" part="parameters"/>
+          </copy>
+        </assign>
+
+        <invoke name="SubscribeNewsletter" partnerLink="SubscribeNewsletterPartnerLink" operation="RegisterToNewsLetter" inputVariable="SubscribeNewsletterRequest" outputVariable="SubscribeNewsletterResponse" />
+
+      </flow>
+    </if>
+
+    <reply name="ReplyCalcOutputs" partnerLink="BookingPartnerLink" portType="tnswsdl:BookPlacePortType" operation="BookPlaceOperation" variable="outputMessage" />
+
+
+  </sequence>
+
+</process>

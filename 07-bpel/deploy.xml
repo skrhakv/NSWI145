@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<deploy 
+    xmlns="http://www.apache.org/ode/schemas/dd/2007/03"
+    xmlns:tnsbpel="http://nswi145/hw7/bpel"
+    xmlns:tnswsdl="http://nswi145/hw7/wsdl"
+    xmlns:calc="http://soap02/"
+  >
+
+  <process name="tnsbpel:BookProcess">
+    <active>true</active>
+    <provide partnerLink="BookingPartnerLink">
+      <service name="tnswsdl:BookingService" port="BookPort" />
+    </provide>
+    
+    <invoke partnerLink="BalancePartnerLink">
+      <service name="calc:BankServiceService" port="BankServicePort" />
+    </invoke>
+    <provide partnerLink="BalancePartnerLink">
+      <service name="tnswsdl:BookingService" port="BalancePort" />
+    </provide>
+    <invoke partnerLink="PaymentPartnerLink">
+      <service name="calc:BankServiceService" port="BankServicePort" />
+    </invoke>
+    <provide partnerLink="PaymentPartnerLink">
+      <service name="tnswsdl:BookingService" port="PaymentPort" />
+    </provide>
+
+
+    <invoke partnerLink="SendEmailPartnerLink">
+      <service name="calc:EmailServiceService" port="EmailServicePort" />
+    </invoke>
+    <provide partnerLink="SendEmailPartnerLink">
+      <service name="tnswsdl:BookingService" port="SendEmailPort" />
+    </provide>
+  
+    <invoke partnerLink="SubscribeNewsletterPartnerLink">
+      <service name="calc:EmailServiceService" port="EmailServicePort" />
+    </invoke>
+    <provide partnerLink="SubscribeNewsletterPartnerLink">
+      <service name="tnswsdl:BookingService" port="SubscribeNewsLetterPort" />
+    </provide>
+  </process>
+
+</deploy>
