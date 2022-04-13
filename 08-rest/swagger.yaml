@@ -1,0 +1,84 @@
+swagger: "2.0"
+info:
+  description: "Documentation for Bank REST API"
+  version: "1.0.0"
+  title: "Bank Service"
+paths:
+  /lab08/hwrest/bank:
+    get:
+      summary: "Get all cards"
+      description: ""
+      produces:
+      - "application/xml"
+      - "application/json"
+      
+      responses:
+        "200":
+          description: "Success"
+  /lab08/hwrest/bank/{cardDetail}/{balance}:
+    put:
+      summary: "Update card balance"
+      description: "updates card with a new balance"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "cardDetail"
+        in: "path"
+        description: "card Detail"
+        required: true
+        type: "string"
+      - name: "balance"
+        in: "path"
+        description: "balance"
+        required: true
+        type: "integer"  
+      responses:
+        "204":
+          description: "successful operation"
+        "409":
+          description: "No Balance to update"
+        "400":
+          description: "invalid parameters"
+    post:
+      summary: "create new card"
+      description: "creates new card with a new balance"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "cardDetail"
+        in: "path"
+        description: "card Detail"
+        required: true
+        type: "string"
+      - name: "balance"
+        in: "path"
+        description: "balance"
+        required: true
+        type: "integer"  
+      responses:
+        "201":
+          description: "successful operation"
+        "409":
+          description: "Card Already exists"
+        "400":
+          description: "invalid parameters"
+  /lab08/hwrest/bank/{cardDetail}:
+    delete:
+      summary: "delete card"
+      description: "deletes card"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "cardDetail"
+        in: "path"
+        description: "card Detail"
+        required: true
+        type: "string"
+      responses:
+        "202":
+          description: "successful operation"
+        "409":
+          description: "No card"
