@@ -1,0 +1,16 @@
+[
+    {
+        "@id": "http://njh.me/result",
+        "@type": [
+            "http://purl.org/dc/terms/MediaType"
+        ],
+        "http://soap02/return": [
+            {
+                "@value": 1000
+            }
+        ]
+    },
+    {
+        "@id": "http://purl.org/dc/terms/MediaType"
+    }
+]

@@ -1,0 +1,20 @@
+{
+    "@context": {
+        "@base": "https://example.org/iana/media-types/",
+        "dcterms": "http://purl.org/dc/terms/",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "ns2": "http://soap02/",
+        "media-type": "@id",
+        "type": "@type",
+        "Media type": "http://purl.org/dc/terms/MediaType",
+        "name": "http://soap02/return",
+        "media-types": "https://example.org/type"
+    },
+    "media-types": [
+        {
+            "type": "http://purl.org/dc/terms/MediaType",
+            "media-type": "http://njh.me/result",
+            "name": 1000
+        }
+    ]
+}

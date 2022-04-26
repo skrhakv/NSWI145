@@ -1,0 +1,34 @@
+@prefix vs: <http://skrhak.cz/nswi145/> .
+@prefix rdf: <http://www.w3.org/1999/02/02-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix pext: <http://www.ontotext.com/proton/protonext> .
+@prefix ocds: <http://purl.org/onto-ocds/ocds> .
+@prefix cis: <http://dati.beniculturali.it/cultural-ON/cultural-ON.owl> .
+vs:Pet rdf:type rdfs:Class ;
+    rdf:Class vs:favouriteToy .
+
+vs:favouriteToy rdf:type rdfs:Class ;
+    rdfs:comment "Toy of interest"@en .
+
+vs:conducts rdf:type rdf:Property ;
+    rdf:Class pext:Bank ;
+    rdf:Class ocds:Transaction ;
+    rdfs:comment "Bounds transactions with a bank"@en .
+
+vs:servedBy rdf:type rdf:Property ;
+    rdf:Class pext:Bank ;
+    rdf:Class ocds:Transaction ;
+    rdfs:comment "Bounds particular transaction with at most two banks"@en .
+
+vs:paymentFor rdf:type rdf:Property ;
+    rdf:Class ocds:Transaction ;
+    rdf:Class cis:Booking ;
+    rdf:Property ocds:TransactionAmount ;
+    rdfs:comment "Bounds particular transaction to a particular payment"@en .
+
+vs:TransactionOfBooking rdf:type rdf:Property ;
+    rdf:Class ocds:Transaction ;
+    rdf:Class cis:Booking ;
+    rdf:Property ocds:TransactionAmount ;
+    rdfs:comment "Bounds particular payment to a particular transaction"@en .
+
