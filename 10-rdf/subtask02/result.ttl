@@ -11,11 +11,5 @@
 
         ns2:return 1000 .
 
-     
-
-    <result> a dcterms:MediaType ;
-
-        ns2:return 1000 .
-
     
 
