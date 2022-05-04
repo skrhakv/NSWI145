@@ -4,31 +4,35 @@
 @prefix pext: <http://www.ontotext.com/proton/protonext> .
 @prefix ocds: <http://purl.org/onto-ocds/ocds> .
 @prefix cis: <http://dati.beniculturali.it/cultural-ON/cultural-ON.owl> .
+@prefix gr: <http://purl.org/goodrelations/v1#> .
+@prefix sor: <http://purl.org/net/soron/> .
+@prefix gold: <http://purl.org/linguistics/gold/> .
+
 vs:Pet rdf:type rdfs:Class ;
-    rdf:Class vs:favouriteToy .
+    sor:likes vs:favouriteToy .
 
 vs:favouriteToy rdf:type rdfs:Class ;
     rdfs:comment "Toy of interest"@en .
 
 vs:conducts rdf:type rdf:Property ;
-    rdf:Class pext:Bank ;
-    rdf:Class ocds:Transaction ;
+    rdfs:domain pext:Bank ;
+    gold:hasProperty ocds:Transaction ;
     rdfs:comment "Bounds transactions with a bank"@en .
 
 vs:servedBy rdf:type rdf:Property ;
-    rdf:Class pext:Bank ;
-    rdf:Class ocds:Transaction ;
+    gold:hasProperty pext:Bank ;
+    rdfs:domain ocds:Transaction ;
     rdfs:comment "Bounds particular transaction with at most two banks"@en .
 
 vs:paymentFor rdf:type rdf:Property ;
-    rdf:Class ocds:Transaction ;
-    rdf:Class cis:Booking ;
+    rdfs:domain ocds:Transaction ;
+    gold:hasProperty cis:Booking ;
     rdf:Property ocds:TransactionAmount ;
     rdfs:comment "Bounds particular transaction to a particular payment"@en .
 
 vs:TransactionOfBooking rdf:type rdf:Property ;
-    rdf:Class ocds:Transaction ;
-    rdf:Class cis:Booking ;
+    gr:includes ocds:Transaction ;
+    gr:includes cis:Booking ;
     rdf:Property ocds:TransactionAmount ;
     rdfs:comment "Bounds particular payment to a particular transaction"@en .
 
