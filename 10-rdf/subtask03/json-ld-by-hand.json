@@ -1,20 +1,25 @@
-{
+
+  {
     "@context": {
-        "@base": "https://example.org/iana/media-types/",
-        "dcterms": "http://purl.org/dc/terms/",
-        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-        "ns2": "http://soap02/",
-        "media-type": "@id",
+        "@base": "http://skrhak.cz/nswi145/",
+        "dbpedia-owl": "http://dbpedia.org/ontology/",
+        "foaf": "http://xmlns.com/foaf/0.1#",
+        "vs": "http://skrhak.cz/nswi145/",
+        "id": "@id",
         "type": "@type",
         "Media type": "http://purl.org/dc/terms/MediaType",
-        "name": "http://soap02/return",
-        "media-types": "https://example.org/type"
+        "givenName": "http://xmlns.com/foaf/0.1#givenName",
+        "Pets": "https://example.org/type",
+        "Animal": "http://dbpedia.org/ontology/animal",
+        "favouriteToy": "http://skrhak.cz/nswi145/favouriteToy"
     },
-    "media-types": [
+    "Pets": [
         {
-            "type": "http://purl.org/dc/terms/MediaType",
-            "media-type": "http://njh.me/result",
-            "name": 1000
+            "type": "http://skrhak.cz/nswi145/Pet",
+            "id": "http://njh.me/pet1",
+            "givenName": "Spooky",
+            "Animal": "Cat",
+            "favouriteToy": "Wool"
         }
     ]
 }

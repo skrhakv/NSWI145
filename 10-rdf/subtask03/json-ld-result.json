@@ -1,16 +1,29 @@
 [
     {
-        "@id": "http://njh.me/result",
+        "@id": "http://njh.me/pet1",
         "@type": [
-            "http://purl.org/dc/terms/MediaType"
+            "http://skrhak.cz/nswi145/Pet"
         ],
-        "http://soap02/return": [
+        "http://xmlns.com/foaf/0.1#givenName": [
             {
-                "@value": 1000
+                "@value": "Spooky"
+            }
+        ],
+        "http://dbpedia.org/ontology/animal": [
+            {
+                "@value": "Cat"
+            }
+        ],
+        "http://skrhak.cz/nswi145/favouriteToy": [
+            {
+                "@value": "Wool"
             }
         ]
     },
     {
-        "@id": "http://purl.org/dc/terms/MediaType"
+        "@id": "http://skrhak.cz/nswi145/Pet"
     }
 ]
+
+
+
