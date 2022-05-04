@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:ns2="http://soap02/"
-    xmlns:S="http://schemas.xmlsoap.org/soap/envelope/"
     xpath-default-namespace="http://www.iana.org/assignments">
     <xsl:output method="text" encoding="UTF-8" indent="no"/>
-    <xsl:variable name="prefix">https://example.org/iana/media-types/</xsl:variable>
 
-    <xsl:template match="/">
-@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
-@prefix dcterms: &lt;http://purl.org/dc/terms/&gt; .
-@prefix ns2: &lt;http://soap02/&gt; .
-    <xsl:for-each select="/S:Envelope/S:Body/ns2:GetBalanceResponse"> 
-    &lt;result&gt; a dcterms:MediaType ;
-        ns2:return <xsl:value-of select="./return"/> .
-    </xsl:for-each>
-    </xsl:template>
+    <xsl:template match="/pet">
+        @prefix foaf: &lt;http://xmlns.com/foaf/0.1#&gt; .
+        @prefix vs: &lt;http://skrhak.cz/nswi145/&gt; .
+        @prefix dbpedia-owl: &lt;http://dbpedia.org/ontology/&gt; .
+        &lt;<xsl:value-of select="./id"/>&gt; a vs:Pet ;
+        foaf:givenName &quot;<xsl:value-of select="./Name"/>&quot; ;
+        dbpedia-owl:animal &quot;<xsl:value-of select="./Animal"/>&quot; ;
+        vs:favouriteToy &quot;<xsl:value-of select="./favouriteToy"/>&quot; .    
+    
    
+    </xsl:template>
     <xsl:template match="text()"/>
    
 </xsl:stylesheet>
+
+
+<!-- https://www.easycodeforall.com/test-and-debug-xslt.html -->

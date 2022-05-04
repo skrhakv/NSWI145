@@ -1,7 +1,7 @@
-<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
-   <S:Body>
-      <ns2:GetBalanceResponse xmlns:ns2="http://soap02/">
-         <return>1000</return>
-      </ns2:GetBalanceResponse>
-   </S:Body>
-</S:Envelope>
+<?xml version='1.0' encoding='UTF-8'?>
+<pet>
+    <id>pet1</id>
+    <Name>Spooky</Name>
+    <Animal>Cat</Animal>
+    <favouriteToy>Wool</favouriteToy>
+</pet>
