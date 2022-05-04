@@ -27,12 +27,12 @@ vs:servedBy rdf:type rdf:Property ;
 vs:paymentFor rdf:type rdf:Property ;
     rdfs:domain ocds:Transaction ;
     gold:hasProperty cis:Booking ;
-    rdf:Property ocds:TransactionAmount ;
+    rdf:value ocds:TransactionAmount ;
     rdfs:comment "Bounds particular transaction to a particular payment"@en .
 
 vs:TransactionOfBooking rdf:type rdf:Property ;
     gr:includes ocds:Transaction ;
     gr:includes cis:Booking ;
-    rdf:Property ocds:TransactionAmount ;
+    rdf:value ocds:TransactionAmount ;
     rdfs:comment "Bounds particular payment to a particular transaction"@en .
 
